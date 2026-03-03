@@ -1,0 +1,25 @@
+{
+  "alunos": [
+    {
+      "id": 1,
+      "nome": "Lucas",
+      "idade": 18,
+      "nivel_conhecimento": "iniciante",
+      "estilo_aprendizado": "visual"
+    },
+    {
+      "id": 2,
+      "nome": "Mariana",
+      "idade": 20,
+      "nivel_conhecimento": "intermediário",
+      "estilo_aprendizado": "cinestésico"
+    },
+    {
+      "id": 3,
+      "nome": "Roberto",
+      "idade": 25,
+      "nivel_conhecimento": "avançado",
+      "estilo_aprendizado": "leitura-escrita"
+    }
+  ]
+}
