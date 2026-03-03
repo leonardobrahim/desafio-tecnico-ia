@@ -7,7 +7,7 @@ Uma plataforma em linha de comando (CLI) que utiliza Inteligência Artificial e 
 **Clone o repositório:**
 
 ```bash
-git clone []()
+git clone [https://github.com/leonardobrahim/desafio-tecnico-ia.git](https://github.com/leonardobrahim/desafio-tecnico-ia.git)
 cd projeto-ia
 ```
 
