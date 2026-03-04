@@ -1,6 +1,20 @@
 # Plataforma Educativa - Gerador de Conteúdo com IA
 
-Uma plataforma em linha de comando (CLI) que utiliza Inteligência Artificial e técnicas avançadas de Engenharia de Prompt para gerar materiais educativos altamente personalizados com base no perfil do aluno.
+Uma aplicação web que utiliza Inteligência Artificial e técnicas avançadas de Engenharia de Prompt para gerar materiais educativos altamente personalizados com base no perfil do aluno.
+
+🌐 **Deploy em Produção:** [https://desafio-tecnico-ia.vercel.app/]
+
+## ✨ Funcionalidades e Extras Implementados
+
+Além dos requisitos mínimos exigidos, este projeto conta com:
+
+- **Interface Web Integrada:** Interface amigável utilizando Flask e HTML/CSS no lugar de um CLI simples.
+
+- **Feedback Visual (Loading UI):** Animação de carregamento (Spinner em CSS) para melhorar a experiência do usuário durante o tempo de resposta da API.
+
+- **Tratamento Robusto de JSON:** Algoritmo avançado de extração de blocos `{}` para evitar que formatações Markdown quebrem o sistema.
+
+- **Deploy Serverless:** Aplicação adaptada (uso da pasta `/tmp`) e hospedada na nuvem utilizando o Vercel.
 
 ## 🚀 Requisitos e Setup
 
