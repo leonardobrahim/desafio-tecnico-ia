@@ -39,6 +39,14 @@ def gerar_prompt_resumo_visual(aluno, topico):
     persona = "Você é um designer instrucional e professor especializado em síntese de informações."
     contexto = f"O aluno {aluno['nome']} possui estilo de aprendizado {aluno['estilo_aprendizado']}."
     
+    instrucao = f"Crie um resumo visual sobre o tópico '{topico}'. IMPORTANTE: Não desenhe 'caixas' fechadas ao redor dos textos, pois elas ficam desalinhadas. Em vez disso, crie um mapa mental usando uma estrutura de árvore hierárquica (utilizando os caracteres ├──, └── e │ para ligar os conceitos principais aos secundários). A complexidade deve respeitar o nível {aluno['nivel_conhecimento']}."
+    
+    formato = "Retorne APENAS um objeto JSON válido com a chave \"diagrama_ascii\" contendo a representação visual em formato de string."
+    
+    return f"{persona}\n\nContexto: {contexto}\n\nInstrução: {instrucao}\n\nFormato: {formato}"
+    persona = "Você é um designer instrucional e professor especializado em síntese de informações."
+    contexto = f"O aluno {aluno['nome']} possui estilo de aprendizado {aluno['estilo_aprendizado']}."
+    
     # Output Formating estrito para Arte/Diagrama ASCII
     instrucao = f"Crie um resumo visual em formato de diagrama ASCII ou mapa mental sobre o tópico '{topico}'. A complexidade da estrutura deve respeitar o fato de o aluno ter nível {aluno['nivel_conhecimento']}."
     formato = "Retorne APENAS um objeto JSON válido com a chave \"diagrama_ascii\" contendo a representação visual em formato de string (use caracteres como | - + para formar o desenho)."
