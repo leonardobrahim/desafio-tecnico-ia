@@ -25,12 +25,15 @@ def limpar_resposta_json(texto):
     return texto.strip()
 
 def salvar_resultado(aluno_nome, tipo_conteudo, topico, conteudo_ia):
-    os.makedirs('samples', exist_ok=True)
+    is_vercel = os.environ.get("VERCEL") == "1"
+    pasta_base = '/tmp/samples' if is_vercel else 'samples'
+    
+    os.makedirs(pasta_base, exist_ok=True)
     timestamp = int(time.time())
     
     nome_seguro = aluno_nome.lower().replace(" ", "_")
     tipo_seguro = tipo_conteudo.lower().replace(" ", "_")
-    nome_arquivo = f"samples/resultado_{nome_seguro}_{tipo_seguro}_{timestamp}.json"
+    nome_arquivo = f"{pasta_base}/resultado_{nome_seguro}_{tipo_seguro}_{timestamp}.json"
 
     try:
         texto_json_limpo = limpar_resposta_json(conteudo_ia)
