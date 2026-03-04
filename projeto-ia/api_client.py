@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("GEMINI_API_KEY")
-CACHE_FILE = "cache.json"
+is_vercel = os.environ.get("VERCEL") == "1"
+CACHE_FILE = "/tmp/cache.json" if is_vercel else "cache.json"
 
 def carregar_cache():
     if os.path.exists(CACHE_FILE):
