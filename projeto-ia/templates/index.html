@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plataforma Educativa IA</title>
+    <style>
+      :root {
+        --primary: #2563eb;
+        --bg: #f8fafc;
+        --text: #1e293b;
+        --card: #ffffff;
+      }
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 2rem;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      h1 {
+        text-align: center;
+        color: var(--primary);
+      }
+      .card {
+        background: var(--card);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        margin-bottom: 2rem;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+      select,
+      input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 1rem;
+      }
+      button {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 1rem;
+        width: 100%;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      button:hover {
+        background-color: #1d4ed8;
+      }
+      button:disabled {
+        background-color: #94a3b8;
+        cursor: not-allowed;
+      }
+      #resultado-container {
+        display: none;
+      }
+      pre {
+        background: #f1f5f9;
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: inherit;
+        line-height: 1.6;
+      }
+      .loading {
+        text-align: center;
+        display: none;
+        margin-top: 1rem;
+        font-weight: bold;
+        color: var(--primary);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Plataforma Educativa IA</h1>
+
+      <div class="card">
+        <div class="form-group">
+          <label for="aluno">Selecione o Aluno:</label>
+          <select id="aluno">
+            {% for aluno in alunos %}
+            <option value="{{ aluno.id }}">
+              {{ aluno.nome }} ({{ aluno.idade }} anos - {{
+              aluno.nivel_conhecimento }})
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="topico">Tópico da Aula:</label>
+          <input
+            type="text"
+            id="topico"
+            placeholder="Ex: Segunda Guerra Mundial, Python, Mitose..."
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="tipo_conteudo">Tipo de Conteúdo:</label>
+          <select id="tipo_conteudo">
+            <option value="1">Explicação Conceitual</option>
+            <option value="2">Exemplos Práticos</option>
+            <option value="3">Perguntas de Reflexão</option>
+            <option value="4">Resumo Visual (Diagrama ASCII)</option>
+          </select>
+        </div>
+
+        <button id="btn-gerar" onclick="gerarConteudo()">Gerar Conteúdo</button>
+        <div id="loading" class="loading">Pensando e gerando conteúdo...</div>
+      </div>
+
+      <div id="resultado-container" class="card">
+        <h2>Resultado Gerado:</h2>
+        <pre id="resultado-texto"></pre>
+      </div>
+    </div>
+
+    <script>
+      async function gerarConteudo() {
+        const alunoId = document.getElementById("aluno").value;
+        const topico = document.getElementById("topico").value;
+        const tipoConteudo = document.getElementById("tipo_conteudo").value;
+        const btn = document.getElementById("btn-gerar");
+        const loading = document.getElementById("loading");
+        const resultContainer = document.getElementById("resultado-container");
+        const resultTexto = document.getElementById("resultado-texto");
+
+        if (!topico) {
+          alert("Por favor, digite um tópico.");
+          return;
+        }
+
+        // UI Feedback
+        btn.disabled = true;
+        loading.style.display = "block";
+        resultContainer.style.display = "none";
+
+        try {
+          const response = await fetch("/gerar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              aluno_id: alunoId,
+              topico: topico,
+              tipo_conteudo: tipoConteudo,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.sucesso) {
+            // Extrai os valores do JSON para exibir de forma limpa
+            const chaves = Object.keys(data.dados);
+            const conteudoReal = data.dados[chaves[0]];
+
+            if (Array.isArray(conteudoReal)) {
+              resultTexto.innerText = conteudoReal
+                .map((item) => "• " + item)
+                .join("\n\n");
+            } else {
+              resultTexto.innerText = conteudoReal;
+            }
+
+            resultContainer.style.display = "block";
+          } else {
+            alert("Erro: " + data.erro);
+          }
+        } catch (error) {
+          alert("Erro ao conectar com o servidor.");
+        } finally {
+          btn.disabled = false;
+          loading.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
