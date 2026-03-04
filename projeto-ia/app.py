@@ -16,14 +16,13 @@ def carregar_perfis():
         return []
 
 def limpar_resposta_json(texto):
-    texto_limpo = texto.strip()
-    if texto_limpo.startswith("```json"):
-        texto_limpo = texto_limpo[7:]
-    elif texto_limpo.startswith("```"):
-        texto_limpo = texto_limpo[3:]
-    if texto_limpo.endswith("```"):
-        texto_limpo = texto_limpo[:-3]
-    return texto_limpo.strip()
+    inicio = texto.find('{')
+    fim = texto.rfind('}')
+    
+    if inicio != -1 and fim != -1:
+        return texto[inicio:fim+1]
+    
+    return texto.strip()
 
 def salvar_resultado(aluno_nome, tipo_conteudo, topico, conteudo_ia):
     os.makedirs('samples', exist_ok=True)
